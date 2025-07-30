@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Question</title>
+	<style>
+		body{
+				background-color: aquamarine;
+				margin: 0;
+				padding: 0;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				width: 100%;
+				height: 100vh;
+			}
+			h1{
+				text-align: center;
+				margin-bottom: 40px;
+			}
+			.update form table td input{
+				width: 500px;
+				height: 30px;
+			}
+			.button-wrapper {
+			            display: flex;
+			            justify-content: center;
+			            margin-top: 20px;
+			        }
+
+			        .button-wrapper button {
+			            width: 150px;
+			            height: 45px;
+			            font-size: 16px;
+			            background-color: #007BFF;
+			            color: white;
+			            border: none;
+			            border-radius: 5px;
+			            cursor: pointer;
+			        }
+	</style>
+</head>
+<body>
+    <h1>Update Question</h1>
+    <div class="update">
+		<form th:action="@{/Questions/UpdateQuestion}" th:object="${question}"method="post">
+				<input type="hidden" th:field="*{id}">
+		        <table>
+					
+		            <tr>
+		                <td><label for="questionText">Questiontext :</label></td>
+		                <td><input type="text" id="questionText" th:field="*{questiontext}" required></td>
+		            </tr>
+		            <tr>
+		                <td><label for="optionA">optionA :</label></td>
+		                <td><input type="text" id="optionA" th:field="*{optionA}" required></td>
+		            </tr>
+		            <tr>
+		                <td><label for="optionB">optionB :</label></td>
+		                <td><input type="text" id="optionB" th:field="*{optionB}" required></td>
+		            </tr>
+		            <tr>
+		                <td><label for="optionC">optionC :</label></td>
+		                <td><input type="text" id="optionC" th:field="*{optionC}" required></td>
+		            </tr>
+		            <tr>
+		                <td><label for="optionD">optionD :</label></td>
+		                <td><input type="text" id="optionD" th:field="*{optionD}" required></td>
+		            </tr>
+		            <tr>
+						<td><label for="correctAnswer">Correct Answer:</label></td>
+						<td> <input type="text" id="correctAnswer" th:field="*{correctAnswer}" required></td>
+					</tr>
+					<tr>
+						<td><label for="type">Type:</label></td>
+						<td> <input type="text" id="type" th:field="*{type}" required></td>
+					</tr>
+		        </table>
+		        <div class="button-wrapper">
+					<button type="submit">Update Question</button>
+				</div>
+
+		    </form>
+	</div>
+    <br>
+    <a th:href="@{/Questions/AllQuestions}">View All Questions</a>
+	
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin</title>
+</head>
+<style>
+	body{
+		margin: 0;
+		padding: 0;
+		background-color: antiquewhite;
+		width: 100%;
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	h1{
+		
+		text-align: center;
+		margin-bottom: 40px;
+	}
+	.anchor{
+		display: flex;
+		justify-content: center;
+				gap: 40px;
+	}
+	.anchor a{
+		padding: 10px;
+		background-color: cyan;
+	}
+   
+</style>
+<body>
+    <h1>Welcome to the Multiple Choice Questions App</h1>
+	<div class="anchor">
+    <a id="tag" th:href="@{/Questions/AllQuestions}">View All Questions</a>
+    <a id="tag" th:href="@{/Questions/create}">Create a New Question</a>
+	<a id="tag" th:href="@{/Questions/User/SignUp}">User SignUp</a>
+	</div>
+</body>
+</html>
