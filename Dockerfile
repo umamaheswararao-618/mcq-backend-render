@@ -1,16 +1,26 @@
-# Stage 1: Build the application
-FROM maven:3.9.9-eclipse-temurin-21 AS builder
+# Use OpenJDK 21
+FROM openjdk:21-jdk
+
+# Set working directory
 WORKDIR /app
-COPY pom.xml .
-COPY .mvn .mvn
-COPY mvnw .
+
+# Copy Maven wrapper and project files
+COPY . .
+
+# Make mvnw executable
+RUN chmod +x mvnw
+
+# Download dependencies (offline build)
 RUN ./mvnw dependency:go-offline
-COPY src src
+
+# Build the application
 RUN ./mvnw clean package -DskipTests
 
-# Stage 2: Run the application
-FROM openjdk:21-jdk
-WORKDIR /app
-COPY --from=builder /app/target/Multiple-0.0.1-SNAPSHOT.jar app.jar
+# Copy the built jar to app.jar
+COPY target/Multiple-0.0.1-SNAPSHOT.jar app.jar
+
+# Expose port
 EXPOSE 8081
-CMD ["java", "-jar", "app.jar"]
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
