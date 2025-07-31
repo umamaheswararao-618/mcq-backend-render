@@ -10,12 +10,13 @@ public class CorsConfig {
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
+        return new WebMvcConfigurer() {	
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("https://mcq-quiz-app-4506.netlify.app")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE");
+            	registry.addMapping("/**")
+                .allowedOrigins("https://mcq-quiz-app-4506.netlify.app")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*");
             }
         };
     }
