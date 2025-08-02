@@ -284,9 +284,8 @@ public class QuestionController {
           // or any other view name you want to show
     }
     @GetMapping("/Result/{id}/{type}")
-    public ResponseEntity<String> result(@PathVariable String type,@PathVariable Long id)
+    public ResponseEntity<String> result(@PathVariable String type,@PathVariable Long id,@RequestBody List<UserQuiz> u)
     {
-    	List<UserQuiz>u=questionService.getUserQuestionType(type,id);
     	List<Question>q=new ArrayList<>();
     	
     	double c=0;

@@ -14,7 +14,8 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
             	registry.addMapping("/**")
-                .allowedOrigins("https://mcq-quiz-app-4506.netlify.app")
+                .allowedOrigins("https://mcq-quiz-app-4506.netlify.app",
+                		 "http://localhost:8081")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*");
             }
