@@ -98,4 +98,7 @@ public class QuestionService {
 		return false;
 	}
 
+    public Question findById2(long id) {
+		return questionRepository.findById(id);
+    }
 }

@@ -289,19 +289,16 @@ public class QuestionController {
     	//List<Question>q=new ArrayList<>();
     	
     	double c=0;
-    	for(UserQuiz i:u)
-    	{
-    		if(i.getMarked().equals(i.getQuestion().getCorrectAnswer()))
-            {
-                c+=1;
+        for (UserQuiz i : u) {
+            Question q = questionService.findById2(i.getQuestion().getId());
+            if (q != null && i.getMarked() != null && i.getMarked().equalsIgnoreCase(q.getCorrectAnswer())) {
+                c++;
             }
-    	}
-      /*  if (!u.isEmpty()) {
-            //code score
-            c = (c / u.size()) * 100;
-        }*/
-    	String s=Double.toString(c);
-    	return ResponseEntity.ok(s);
+        }
+
+        double score = u.isEmpty() ? 0 : (c / u.size()) * 100;
+        return ResponseEntity.ok(Double.toString(score));
+
     	
     }
 
