@@ -292,7 +292,9 @@ public class QuestionController {
     	for(UserQuiz i:u)
     	{
     		if(i.getMarked().equals(i.getQuestion().getCorrectAnswer()))
-    			c++;	
+            {
+                c+=1;
+            }
     	}
       /*  if (!u.isEmpty()) {
             //code score
