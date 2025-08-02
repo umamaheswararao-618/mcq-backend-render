@@ -294,10 +294,10 @@ public class QuestionController {
     		if(i.getMarked().equals(i.getQuestion().getCorrectAnswer()))
     			c++;	
     	}
-        if (!u.isEmpty()) {
+      /*  if (!u.isEmpty()) {
             //code score
             c = (c / u.size()) * 100;
-        }
+        }*/
     	String s=Double.toString(c);
     	return ResponseEntity.ok(s);
     	
