@@ -290,9 +290,14 @@ public class QuestionController {
     	
     	double c=0;
         for (UserQuiz i : u) {
-            Question q = questionService.findById2(i.getQuestion().getId());
-            if (q != null && i.getMarked() != null && i.getMarked().equalsIgnoreCase(q.getCorrectAnswer())) {
-                c++;
+            Optional<Question> optionalQuestion = questionService.findById2(i.getQuestion().getId());
+            if (optionalQuestion.isPresent()) {
+                Question q = optionalQuestion.get();
+
+
+                if (i.getMarked().equals(q.getCorrectAnswer())) {
+                    c++;
+                }
             }
         }
 
@@ -301,7 +306,7 @@ public class QuestionController {
         }
         return ResponseEntity.ok(Double.toString(c));
 
-    	
+
     }
 
 }

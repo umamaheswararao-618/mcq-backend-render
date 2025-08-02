@@ -8,10 +8,10 @@ import com.multiplechoice.Multiple.repository.UserQuizRepository;
 import com.multiplechoice.Multiple.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuestionService {
@@ -98,7 +98,7 @@ public class QuestionService {
 		return false;
 	}
 
-    public Question findById2(long id) {
+    public Optional<Question> findById2(long id) {
 		return questionRepository.findById(id);
     }
 }
