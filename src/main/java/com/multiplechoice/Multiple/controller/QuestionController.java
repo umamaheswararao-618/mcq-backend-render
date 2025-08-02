@@ -295,6 +295,7 @@ public class QuestionController {
     			c++;	
     	}
         if (!u.isEmpty()) {
+            //code score
             c = (c / u.size()) * 100;
         }
     	String s=Double.toString(c);
