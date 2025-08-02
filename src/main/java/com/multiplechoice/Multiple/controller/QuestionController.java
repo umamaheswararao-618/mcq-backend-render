@@ -296,8 +296,10 @@ public class QuestionController {
             }
         }
 
-        double score = u.isEmpty() ? 0 : (c / u.size()) * 100;
-        return ResponseEntity.ok(Double.toString(score));
+        if (!u.isEmpty()) {
+            c = (c / u.size()) * 100;
+        }
+        return ResponseEntity.ok(Double.toString(c));
 
     	
     }
