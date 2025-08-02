@@ -286,7 +286,7 @@ public class QuestionController {
     @PostMapping("/Result/{id}/{type}")
     public ResponseEntity<String> result(@PathVariable String type,@PathVariable Long id,@RequestBody List<UserQuiz> u)
     {
-    	List<Question>q=new ArrayList<>();
+    	//List<Question>q=new ArrayList<>();
     	
     	double c=0;
     	for(UserQuiz i:u)
@@ -294,7 +294,9 @@ public class QuestionController {
     		if(i.getMarked().equals(i.getQuestion().getCorrectAnswer()))
     			c++;	
     	}
-    	c=(c/(u.size()-1))*100;
+        if (!u.isEmpty()) {
+            c = (c / u.size()) * 100;
+        }
     	String s=Double.toString(c);
     	return ResponseEntity.ok(s);
     	
