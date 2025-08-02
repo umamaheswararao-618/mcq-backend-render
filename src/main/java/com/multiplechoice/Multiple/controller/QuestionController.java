@@ -283,7 +283,7 @@ public class QuestionController {
         }
           // or any other view name you want to show
     }
-    @GetMapping("/Result/{id}/{type}")
+    @PostMapping("/Result/{id}/{type}")
     public ResponseEntity<String> result(@PathVariable String type,@PathVariable Long id,@RequestBody List<UserQuiz> u)
     {
     	List<Question>q=new ArrayList<>();
