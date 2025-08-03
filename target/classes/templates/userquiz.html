@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Quiz</title>
+    <style>
+        body { 
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			background-color: aquamarine;
+			 font-family: Arial;
+		  }
+        .question { margin-bottom: 20px; padding: 10px; background-color: #e0f7fa; }
+    </style>
+	<script>
+	  document.addEventListener("DOMContentLoaded", function () {
+	    document.addEventListener("contextmenu", function (e) {
+	      e.preventDefault();
+	    });
+
+	    document.addEventListener("copy", function (e) {
+	      e.preventDefault();
+	    });
+
+	    document.addEventListener("cut", function (e) {
+	      e.preventDefault();
+	    });
+
+	    document.addEventListener("selectstart", function (e) {
+	      e.preventDefault();
+	    });
+	  });
+	</script>
+
+</head>
+<body>
+    <h1>User Quiz</h1>
+	<form th:action="@{/Questions/User/SubmitQuiz}" method="post">
+	    <div th:each="u : ${UserQuiz}" class="question">
+	        <p><b th:text="${u.question.Questiontext}"></b></p>
+
+	        <label><input type="radio" th:name="${u.question.id}" th:value="${u.question.optionA}" required /> <span th:text="${u.question.optionA}"></span></label><br/>
+	        <label><input type="radio" th:name="${u.question.id}" th:value="${u.question.optionB}" /> <span th:text="${u.question.optionB}"></span></label><br/>
+	        <label><input type="radio" th:name="${u.question.id}" th:value="${u.question.optionC}" /> <span th:text="${u.question.optionC}"></span></label><br/>
+	        <label><input type="radio" th:name="${u.question.id}" th:value="${u.question.optionD}" /> <span th:text="${u.question.optionD}"></span></label><br/>
+	        <hr/>
+	    </div>
+	    <input type="hidden" name="userId" th:value="${UserQuiz[0].user.id}" />
+	    <button type="submit">Submit</button>
+	</form>
+    <br>
+    <a th:href="@{/Questions/User}">Back to User</a>
+</body>
+</html>

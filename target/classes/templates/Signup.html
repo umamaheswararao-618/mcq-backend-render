@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SignUp</title>
+    <style>
+        body {
+            background-color: rgb(255, 255, 128);
+            font-family: Arial, sans-serif;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            margin: auto;
+        }
+        input {
+            margin: 10px 0;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Sign Up</h1>
+
+    <form th:action="@{/Questions/User/SignUp}" method="post" th:object="${user}">
+        <input type="text" placeholder="Enter Your Email" th:field="*{email}" required />
+        <input type="text" placeholder="Enter Your Roll Number" th:field="*{roll}" required />
+        <input type="text" placeholder="Enter Your Password" th:field="*{passWord}" required />
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>

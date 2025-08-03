@@ -1,0 +1,13 @@
+com\multiplechoice\Multiple\config\CorsConfig$1.class
+com\multiplechoice\Multiple\MultipleApplication.class
+com\multiplechoice\Multiple\repository\UserRepository.class
+com\multiplechoice\Multiple\Dtp\UserAcc.class
+com\multiplechoice\Multiple\config\CorsConfig.class
+com\multiplechoice\Multiple\repository\UserQuizRepository.class
+Main.class
+com\multiplechoice\Multiple\model\User.class
+com\multiplechoice\Multiple\model\Question.class
+com\multiplechoice\Multiple\service\QuestionService.class
+com\multiplechoice\Multiple\controller\QuestionController.class
+com\multiplechoice\Multiple\repository\QuestionRepository.class
+com\multiplechoice\Multiple\model\UserQuiz.class

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All Questions</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Questions</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Question Text</th>
+                <th>Option A</th>
+                <th>Option B</th>
+                <th>Option C</th>
+                <th>Option D</th>
+                <th>Correct Answer</th>
+                <th>Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="question : ${questions}">
+                <td th:text="${question.id}"></td>
+                <td th:text="${question.Questiontext}"></td>
+                <td th:text="${question.optionA}"></td>
+                <td th:text="${question.optionB}"></td>
+                <td th:text="${question.optionC}"></td>
+                <td th:text="${question.optionD}"></td>
+                <td th:text="${question.correctAnswer}"></td>
+                <td th:text="${question.type}"></td>
+                <td ><a th:href="@{/Questions/UpdateQuestion/{id}(id=${question.id})}">Update</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <a th:href="@{/Questions/create}">Create a New Question</a>
+</body>
+</html>
