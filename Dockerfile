@@ -1,33 +1,45 @@
-# Stage 1: Build the application using Maven
-FROM maven:3.8.5-openjdk-17 AS builder
+# Stage 1: Build the application using the Maven Wrapper
+FROM eclipse-temurin:17-jdk-jammy AS builder
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Copy the pom.xml file to download dependencies
-COPY pom.xml .
+# Copy the Maven Wrapper and pom.xml
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
 
-# Download all the dependencies
-RUN mvn dependency:go-offline
+# Make the wrapper executable
+RUN chmod +x mvnw
 
-# Copy the rest of your source code
+# Download dependencies
+RUN ./mvnw dependency:go-offline -B
+
+# Copy the source code
 COPY src ./src
 
-# Package the application into a JAR file
-RUN mvn package -DskipTests
+# Build the application. The -B flag runs it in batch mode (less verbose logs)
+RUN ./mvnw package -DskipTests -B
+
+# (Optional Debugging Step) - This will list the contents of the target directory
+# so you can see the JAR file name in the Render build logs if it fails again.
+RUN ls -la target/
 
 
 # Stage 2: Create the final, lightweight runtime image
 FROM eclipse-temurin:17-jre-jammy
 
-# Set the working directory
 WORKDIR /app
 
-# Copy the JAR file from the builder stage
-COPY --from=builder /app/target/*.jar app.jar
+# Define an argument for the JAR file name
+ARG JAR_FILE=target/*.jar
 
-# Expose the port your application runs on (default for Spring Boot is 8080)
+# Copy the JAR file from the builder stage and rename it to app.jar
+# This is a more robust way to copy, as it doesn't depend on the version number.
+COPY --from=builder /app/${JAR_FILE} app.jar
+
+# Expose the port your application runs on
 EXPOSE 8080
 
-# The command to run your application
+# The command to run your application.
+# It looks for app.jar in the root of the WORKDIR.
 ENTRYPOINT ["java", "-jar", "app.jar"]
