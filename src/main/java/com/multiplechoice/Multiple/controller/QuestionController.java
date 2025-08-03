@@ -258,7 +258,7 @@ public class QuestionController {
         return ResponseEntity.ok(u.getEmail());
     }
     @GetMapping("/Tech")
-       public  List<UserVerify>findusers()
+        List<UserVerify>findusers()
         {
              List<User>u=questionService.findByRollAdmin("admin");
              List<UserVerify>uvf=new ArrayList<>();
