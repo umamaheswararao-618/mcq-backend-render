@@ -1,6 +1,7 @@
 package com.multiplechoice.Multiple.controller;
 
 import com.multiplechoice.Multiple.Dtp.UserAcc;
+import com.multiplechoice.Multiple.Dtp.UserVerify;
 import com.multiplechoice.Multiple.model.Question;
 import com.multiplechoice.Multiple.model.User;
 import com.multiplechoice.Multiple.model.UserQuiz;
@@ -257,9 +258,31 @@ public class QuestionController {
         return ResponseEntity.ok(u.getEmail());
     }
     @GetMapping("/Tech")
-       public  List<User>findusers()
+       public  List<UserVerify>findusers()
         {
-            return questionService.findByRollAdmin("admin");
+             List<User>u=questionService.findByRollAdmin("admin");
+             List<UserVerify>uvf=new ArrayList<>();
+
+             for(User us:u)
+             {
+                 VerifyUser v=new VerifyUser();
+                 UserVerify uv=new UserVerify();
+                 v=questionService.FindVerifyUser(us.getId());
+                 uv.setId(us.getId());
+                 uv.setEmail(us.getEmail());
+                 uv.setRoll(us.getRoll());
+                 if(v!=null)
+                 {
+                     uv.setAccept(v.getAccept());
+                 }
+                 else
+                     uv.setAccept("false");
+
+                 uvf.add(uv);
+
+
+             }
+             return uvf;
         }
     @PutMapping("/User/Accept/{id}")
     ResponseEntity<String>Accept(@PathVariable("id") Long id)
