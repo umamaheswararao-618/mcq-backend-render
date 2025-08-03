@@ -103,7 +103,7 @@ public class QuestionService {
 	}
 	public List<User> findByRollAdmin(String roll)
 	{
-		return findByRollAdmin(roll);
+		return userRepository.findByRoll(roll);
 	}
 
     public Optional<Question> findById2(long id) {
