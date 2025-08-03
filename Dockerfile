@@ -1,5 +1,6 @@
-# Stage 1: Build the application using the Maven Wrapper
-FROM eclipse-temurin:17-jdk-jammy AS builder
+# Stage 1: Build the application using the Maven Wrapper with Java 21
+# CHANGE: Updated the base image from version 17 to 21
+FROM eclipse-temurin:21-jdk-jammy AS builder
 
 # Set the working directory
 WORKDIR /app
@@ -17,29 +18,21 @@ RUN ./mvnw dependency:go-offline -B
 # Copy the source code
 COPY src ./src
 
-# Build the application. The -B flag runs it in batch mode (less verbose logs)
+# Build the application.
 RUN ./mvnw package -DskipTests -B
 
-# (Optional Debugging Step) - This will list the contents of the target directory
-# so you can see the JAR file name in the Render build logs if it fails again.
-RUN ls -la target/
 
-
-# Stage 2: Create the final, lightweight runtime image
-FROM eclipse-temurin:17-jre-jammy
+# Stage 2: Create the final, lightweight runtime image with Java 21
+# CHANGE: Updated the runtime image from version 17 to 21
+FROM eclipse-temurin:21-jre-jammy
 
 WORKDIR /app
 
-# Define an argument for the JAR file name
-ARG JAR_FILE=target/*.jar
-
 # Copy the JAR file from the builder stage and rename it to app.jar
-# This is a more robust way to copy, as it doesn't depend on the version number.
-COPY --from=builder /app/${JAR_FILE} app.jar
+COPY --from=builder /app/target/*.jar app.jar
 
 # Expose the port your application runs on
 EXPOSE 8080
 
 # The command to run your application.
-# It looks for app.jar in the root of the WORKDIR.
 ENTRYPOINT ["java", "-jar", "app.jar"]
