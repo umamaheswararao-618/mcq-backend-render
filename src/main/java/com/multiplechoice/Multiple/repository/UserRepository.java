@@ -9,9 +9,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User,Long> {
-	
-	@Query("select u from user u where u.roll = :roll")
-    List<User> findByRollAdmin(@Param("roll") String roll);
+
+    @Query("SELECT u FROM User u WHERE u.roll = :roll")
+    List<User> findByRoll(@Param("roll") String roll);
+
 
 
 }
