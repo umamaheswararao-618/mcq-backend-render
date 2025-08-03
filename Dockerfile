@@ -1,25 +1,33 @@
-# Stage 1: Build
-FROM maven:3.9.6-eclipse-temurin-21 AS builder
+# Stage 1: Build the application using Maven
+FROM maven:3.8.5-openjdk-17 AS builder
+
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy Maven wrapper and pom first (better caching)
-COPY mvnw mvnw.cmd ./
-COPY .mvn .mvn
-COPY pom.xml ./
+# Copy the pom.xml file to download dependencies
+COPY pom.xml .
 
-# Download dependencies
-RUN chmod +x mvnw && ./mvnw dependency:go-offline
+# Download all the dependencies
+RUN mvn dependency:go-offline
 
-# Copy the source code
-COPY src src
+# Copy the rest of your source code
+COPY src ./src
 
-# Build the jar
-RUN ./mvnw clean package -DskipTests
+# Package the application into a JAR file
+RUN mvn package -DskipTests
 
-# Stage 2: Run
-FROM openjdk:21-jdk
+
+# Stage 2: Create the final, lightweight runtime image
+FROM eclipse-temurin:17-jre-jammy
+
+# Set the working directory
 WORKDIR /app
-COPY --from=builder /app/target/Multiple-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 8081
+# Copy the JAR file from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
+
+# Expose the port your application runs on (default for Spring Boot is 8080)
+EXPOSE 8080
+
+# The command to run your application
 ENTRYPOINT ["java", "-jar", "app.jar"]
