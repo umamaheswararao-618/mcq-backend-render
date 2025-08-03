@@ -3,10 +3,12 @@ package com.multiplechoice.Multiple.service;
 import com.multiplechoice.Multiple.model.Question;
 import com.multiplechoice.Multiple.model.User;
 import com.multiplechoice.Multiple.model.UserQuiz;
+import com.multiplechoice.Multiple.model.VerifyUser;
 import com.multiplechoice.Multiple.repository.QuestionRepository;
 import com.multiplechoice.Multiple.repository.UserQuizRepository;
 import com.multiplechoice.Multiple.repository.UserRepository;
 
+import com.multiplechoice.Multiple.repository.VerifyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ public class QuestionService {
     private QuestionRepository questionRepository;
     @Autowired
     private UserRepository userRepository;
+	@Autowired
+	private VerifyRepository verifyRepository;
     
     @Autowired
     private UserQuizRepository quizRepository;
@@ -97,8 +101,28 @@ public class QuestionService {
 		}
 		return false;
 	}
+	public List<User> findByRollAdmin(String roll)
+	{
+		return findByRollAdmin(roll);
+	}
 
     public Optional<Question> findById2(long id) {
 		return questionRepository.findById(id);
     }
+
+	public VerifyUser FindVerifyUser(Long id) {
+		List<VerifyUser>v=verifyRepository.findAll();
+		Optional<User> u=userRepository.findById(id);
+
+		for(VerifyUser vu:v)
+		{
+			if(vu.getUser().equals(u.get()))
+				return vu;
+		}
+        return null;
+    }
+
+	public void saveVerifyUser(VerifyUser v) {
+		verifyRepository.save(v);
+	}
 }

@@ -5,6 +5,7 @@ import com.multiplechoice.Multiple.model.Question;
 import com.multiplechoice.Multiple.model.User;
 import com.multiplechoice.Multiple.model.UserQuiz;
 //import com.multiplechoice.Multiple.model.User;
+import com.multiplechoice.Multiple.model.VerifyUser;
 import com.multiplechoice.Multiple.service.QuestionService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.Session;
@@ -249,30 +250,33 @@ public class QuestionController {
     	
     	
     }
-   /* @GetMapping("/User/userquiz/{id}")
-    public List<UserQuiz> userquiz(@PathVariable Long id)
+    @GetMapping("/email/{eid}")
+    ResponseEntity<String> Email(@PathVariable("eid") Long eid)
     {
-    	User user=questionService.getUserById(id);
-    	List<Question>questions=questionService.getAllQuestions();
-    	Collections.shuffle(questions);
-    	
-    	List<Question> ran20;
-    	if(questions.size()>19)
-    	ran20=questions.subList(0, 20);
-    	else
-    		ran20=questions;
-    	List<UserQuiz>Userquiz=new ArrayList<>();
-    	
-    	
-		
-    	for(Question question:ran20)
-    	{
-    		Userquiz.add(new UserQuiz(user,question));
-    	}
-    	
-		return Userquiz;
-    	
-    }*/
+        User u=questionService.getUserById(eid);
+        return ResponseEntity.ok(u.getEmail());
+    }
+    @PostMapping("/Tech")
+       public  List<User>findusers()
+        {
+            return questionService.findByRollAdmin("admin");
+        }
+    @PutMapping("/User/Accept/{id}")
+    ResponseEntity<String>Accept(@PathVariable("id") Long id)
+    {
+        VerifyUser v=questionService.FindVerifyUser(id);
+        if(v!=null) {
+            if (v.getAccept().equals("false"))
+                v.setAccept("true");
+            else
+                v.setAccept("false");
+            questionService.saveVerifyUser(v);
+           return ResponseEntity.ok("Updated");
+        }
+        else
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Invalid Details");
+
+    }
     @PostMapping("/User/SubmitQuiz")
     public void SubmitQuiz(HttpSession session,@RequestBody List<UserQuiz>userQuizList ) {
         if (userQuizList != null && !userQuizList.isEmpty()) {
