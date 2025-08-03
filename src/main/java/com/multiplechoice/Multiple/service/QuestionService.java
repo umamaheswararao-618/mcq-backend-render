@@ -113,11 +113,14 @@ public class QuestionService {
 	public VerifyUser FindVerifyUser(Long id) {
 		List<VerifyUser>v=verifyRepository.findAll();
 		Optional<User> u=userRepository.findById(id);
-
+        if(u.isEmpty())
+			return null;
 		for(VerifyUser vu:v)
 		{
-			if(vu.getUser().equals(u.get()))
-				return vu;
+			if(!u.isEmpty()) {
+				if (vu.getUser().equals(u.get()))
+					return vu;
+			}
 		}
         return null;
     }

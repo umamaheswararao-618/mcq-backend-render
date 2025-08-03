@@ -1,5 +1,6 @@
 package com.multiplechoice.Multiple.Dtp;
 
+
 public class UserVerify {
 
      Long id;
