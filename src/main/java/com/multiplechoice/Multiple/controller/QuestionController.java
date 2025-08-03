@@ -256,7 +256,7 @@ public class QuestionController {
         User u=questionService.getUserById(eid);
         return ResponseEntity.ok(u.getEmail());
     }
-    @PostMapping("/Tech")
+    @GetMapping("/Tech")
        public  List<User>findusers()
         {
             return questionService.findByRollAdmin("admin");
@@ -265,6 +265,7 @@ public class QuestionController {
     ResponseEntity<String>Accept(@PathVariable("id") Long id)
     {
         VerifyUser v=questionService.FindVerifyUser(id);
+        User user=questionService.getUserById(id);
         if(v!=null) {
             if (v.getAccept().equals("false"))
                 v.setAccept("true");
@@ -274,7 +275,13 @@ public class QuestionController {
            return ResponseEntity.ok("Updated");
         }
         else
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Invalid Details");
+        {
+            VerifyUser vcs=new VerifyUser();
+            vcs.setAccept("true");
+            vcs.setUser(user);
+            questionService.saveVerifyUser(vcs);
+            return ResponseEntity.ok("Updated");
+        }
 
     }
     @PostMapping("/User/SubmitQuiz")
