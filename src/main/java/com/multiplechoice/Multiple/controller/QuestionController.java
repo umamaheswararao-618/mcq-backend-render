@@ -183,8 +183,19 @@ public class QuestionController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
 
+
         if (u.getPassword().equals(user.getPassWord())) {
+            VerifyUser v=questionService.FindVerifyUser(user.getId());
+            if(v!=null && u.getRoll().equals("admin") && v.getAccept().equals("true"))
             return ResponseEntity.ok(""+user.getId());
+            else
+            {
+                if(v==null && u.getRoll().equals("user"))
+                    return ResponseEntity.ok(""+user.getId());
+                else
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("need Permision As admin");
+
+            }
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
@@ -233,6 +244,7 @@ public class QuestionController {
     		ran20=questions;
     	return ran20;
     }
+
     @GetMapping("/viewQuiz/{id}")
     public List<UserQuiz>display(@PathVariable Long id)
     {
@@ -335,6 +347,7 @@ public class QuestionController {
             }
         }
 
+
         if (!u.isEmpty()) {
             c = (c / u.size()) * 100;
         }
@@ -342,6 +355,30 @@ public class QuestionController {
 
 
     }
+    @GetMapping("/subjectresults/{id}/{type}")
+    ResponseEntity<String> resultDeclare(@PathVariable("id") Long id,@PathVariable("type") String type)
+    {
+        List<UserQuiz>u=questionService.getUserQuestionType(type, id);
+        double c=0;
+        for (UserQuiz i : u) {
+            Optional<Question> optionalQuestion = questionService.findById2(i.getQuestion().getId());
+            if (optionalQuestion.isPresent()) {
+                Question q = optionalQuestion.get();
+
+
+                if (i.getMarked().equals(q.getCorrectAnswer())) {
+                    c++;
+                }
+            }
+        }
+
+
+        if (!u.isEmpty()) {
+            c = (c / u.size()) * 100;
+        }
+        return ResponseEntity.ok(Double.toString(c));
+    }
 
 }
+
    
