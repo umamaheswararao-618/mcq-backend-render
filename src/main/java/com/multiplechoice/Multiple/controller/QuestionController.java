@@ -246,7 +246,7 @@ public class QuestionController {
     }
 
     @GetMapping("/viewQuiz/{id}")
-    public List<UserQuiz>display(@PathVariable Long id)
+    public ResponseEntity<List<UserQuiz>>display(@PathVariable Long id)
     {
     	User user=questionService.getUserById(id);
     	List<UserQuiz>s =new ArrayList<> ();
@@ -259,7 +259,9 @@ public class QuestionController {
     		  r.add(u);
     		}
     	}
-    	return r;
+        if(r==null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(r);
+    	return ResponseEntity.ok(r);
     	
     	
     }
